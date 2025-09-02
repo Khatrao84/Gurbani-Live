@@ -1,0 +1,11 @@
+// api/getLive.js
+export default async function handler(req, res) {
+  const channelId = req.query.channel;
+  if (!channelId) return res.status(400).json({ error: "Missing channel ID" });
+
+  // Return YouTube embed URL (refresh happens on server-side occasionally)
+  const url = `https://www.youtube.com/embed/live_stream?channel=${channelId}&autoplay=1`;
+
+  res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=1800"); 
+  res.redirect(url);
+}
